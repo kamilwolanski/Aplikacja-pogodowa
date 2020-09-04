@@ -1,0 +1,43 @@
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikacja pogodowa</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&family=Long+Cang&family=Roboto+Mono&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="wrapper">
+        <header>
+            <h1 class="city">Rzeszów</h1>
+            <input type="text" id="cityInput" placeholder="Wpisz szukane miasto...">
+            <button class='searchBtn'>Szukaj</button>
+        </header>
+    
+        <section class="temperature-area">
+            <h2><span class="temp">20</span>&degC</h2>
+        </section>
+
+        <section class="restParametrs">
+            <div class="parametr feelsLike">
+                <h3>Temp.odczuwalna: <span class='feelsLikeSpan'>23</span>&degC</h3>
+            </div>
+            <div class="parametr humidity">
+                <h3>Wilgotność: <span class='humiditySpan'>56</span>%</h3>
+            </div>
+            <div class="parametr pressure">
+                <h3>Ciśnienie: <span class='pressureSpan'>1020</span> hPa</h3>
+            </div>
+            <div class="parametr wind">
+                <h3>Wiatr: <span class="windSpan">8</span> km/h</h3>
+            </div>
+        </section>
+    </div>
+
+
+    <script src="./js/main.js"></script>
+</body>
+</html>

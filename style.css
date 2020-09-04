@@ -1,0 +1,104 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    color: white;
+}
+
+body{
+    background: url(imgs/darkClouds.jpeg) center no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+/* body::after{
+    content: "";
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(105, 102, 102, 0.4);
+    background-size: cover;
+    z-index: -1;
+    opacity: .6;
+} */
+
+body::before{
+    content: "";
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(105, 102, 102, 0.4);
+    background-size: cover;
+    z-index: -1;
+    opacity: .6;
+}
+
+.wrapper{
+    padding:30px;
+    min-height: 100%;
+}
+header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+header h1{
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    font-size: 40px;
+    /* text-shadow: 4px 0px 2px rgba(10, 25, 20, 1); */
+}
+
+header input{
+    margin-top:20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 80%;
+    color: black;
+}
+
+.searchBtn{
+    padding:12px 30px;
+    margin-top: 20px;
+    border-radius: 10rem;
+    border: none;
+    font-size: 20px;
+    color: darkblue;
+    font-weight: bolder;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .15rem;
+    cursor: pointer;
+}
+.temperature-area{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 40%;
+    border-bottom: 2px solid rgba(255,255,255,.5);
+}
+
+.temperature-area h2{
+    font-size: 100px;
+    /* font-family: 'Roboto Mono', monospace; */
+    font-stretch: expanded;
+    font-weight: 300;
+}
+.restParametrs{
+    margin-top: 20px;
+}
+.parametr{
+    margin:20px 0;
+}
+
+.parametr > h3{
+    font-family: 'Roboto Mono', monospace;
+}
