@@ -23,7 +23,7 @@ const style = document.head.appendChild(document.createElement("style"));
 const calculate = (city)=>{
     // const cityInputValue = cityInput.value;
 
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=86ccf0dc68b8c1df51843f8e9bf5244f`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=86ccf0dc68b8c1df51843f8e9bf5244f`)
     .then(res => res.json())
     .then(data =>{
         console.log(data);
