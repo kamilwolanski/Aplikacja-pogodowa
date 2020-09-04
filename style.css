@@ -80,6 +80,7 @@ header input{
     text-transform: uppercase;
     letter-spacing: .15rem;
     cursor: pointer;
+    opacity: .8;
 }
 .temperature-area{
     display: flex;
