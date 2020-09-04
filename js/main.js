@@ -72,7 +72,7 @@ const calculate = (city)=>{
 
 const dzienCzyNoc = (currentTime, sunSet, rodzajchmury)=>{
     if(sunSet < currentTime){
-        style.innerHTML = `body::after {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds['night']}) center no-repeat; background-size: cover; z-index: -1; opacity: .6;} body::before {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds[rodzajchmury]}) center no-repeat; background-size: cover; z-index: -1; opacity: .4}`;
+        style.innerHTML = `body::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds['night']}) center no-repeat; background-size: cover; z-index: -1; opacity: .6;} body::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds[rodzajchmury]}) center no-repeat; background-size: cover; z-index: -1; opacity: .4}`;
         body.style.background = `url(imgs/darkClouds.jpeg) center no-repeat`;
         body.style.backgroundSize = "cover";
     }else{
@@ -83,13 +83,13 @@ const dzienCzyNoc = (currentTime, sunSet, rodzajchmury)=>{
         if(rodzajchmury === 'light rain' || rodzajchmury === 'moderate rain' || rodzajchmury === 'shower rain' || rodzajchmury === 'light intensity drizzle rain'|| rodzajchmury === 'light intensity shower rain'){
             rain(rodzajchmury);
         }else if(rodzajchmury === 'thunderstorm'){
-            style.innerHTML = `body::before {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/droprain.png) center no-repeat; background-size: cover; z-index: -1; opacity: .4;}`;
+            style.innerHTML = `body::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/droprain.png) center no-repeat; background-size: cover; z-index: -1; opacity: .4;}`;
         }
     }
 }
 
 const rain =(typeOfrain)=>{
-    style.innerHTML = `body::before {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds[typeOfrain]}) center no-repeat; background-size: cover; z-index: -1; opacity: .4;}`;
+    style.innerHTML = `body::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds[typeOfrain]}) center no-repeat; background-size: cover; z-index: -1; opacity: .4;}`;
     body.style.background = `url(imgs/darkClouds.jpeg) center no-repeat`;
     body.style.backgroundSize = "cover";
 }
