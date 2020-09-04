@@ -27,27 +27,33 @@ const calculate = (city)=>{
     .then(res => res.json())
     .then(data =>{
         console.log(data);
-        // const sunRise = data.sys.sunrise;
-        // const sunRiseInMili = sunRise * 1000;
+        const sunRise = data.sys.sunrise;
+        const sunRiseInMili = sunRise * 1000;
 
         const sunSet = data.sys.sunset;
         const sunSetInMili = sunSet * 1000;
         const sunSetDate = new Date (sunSetInMili);
-        // console.log(sunSetDate);
-        // console.log(sunRiseInMili);
-        // const dateObject = new Date(sunRiseInMili); // data wschodu słońca
-        // console.log(dateObject);
+        const sunSetDayOfMonth = sunSetDate.getDay()-1;
+        // console.log(sunSetDayOfMonth);
+        // sunSetDate.getDay;
+        console.log(sunSetDate);
+        
+        const sunRiseDate = new Date(sunRiseInMili); // data wschodu słońca
+        const sunRiseDayOfMonth = sunRiseDate.getDay()-1;
+
+        console.log(sunRiseDate);
 
         // const humanDateFormat = dateObject.toLocaleString();
         // console.log(humanDateFormat);
 
 
         const nowTime = new Date(); // Obecna data i godzina
+        // console.log(nowTime.getDate());
 
         const typeOfClouds = data.weather[0].description;
-        console.log(typeOfClouds)
+        // console.log(typeOfClouds)
 
-        dzienCzyNoc(nowTime, sunSetDate, typeOfClouds);
+        dzienCzyNoc(nowTime, sunSetDate, sunRiseDate, sunSetDayOfMonth, sunRiseDayOfMonth, typeOfClouds);
         const tempInCalvin = parseInt(data.main.temp);
         const tempInCelsius = fromCalvinToCelcius(tempInCalvin);
 
@@ -70,8 +76,8 @@ const calculate = (city)=>{
     })
 }
 
-const dzienCzyNoc = (currentTime, sunSet, rodzajchmury)=>{
-    if(sunSet < currentTime){
+const dzienCzyNoc = (currentTime, sunSet, sunRise, sunSetDay, sunRiseDay, rodzajchmury)=>{
+    if(sunSet < currentTime || sunRiseDay < sunSetDay && currentTime - sunSet < 0 && currentTime - sunRise < 0){
         style.innerHTML = `body::after {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds['night']}) center no-repeat; background-size: cover; z-index: -1; opacity: .6;} body::before {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds[rodzajchmury]}) center no-repeat; background-size: cover; z-index: -1; opacity: .4}`;
         body.style.background = `url(imgs/darkClouds.jpeg) center no-repeat`;
         body.style.backgroundSize = "cover";
