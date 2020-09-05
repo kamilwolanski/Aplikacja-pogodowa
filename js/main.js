@@ -34,18 +34,30 @@ const calculate = (city)=>{
         const sunSetInMili = sunSet * 1000;
 
         const sunSetDate = new Date (sunSetInMili); // data zachodu słońca
-        const sunSetDayOfMonth = sunSetDate.getDay()-1; // dzień miesiąca zachodu słońca
+        // const sunSetDayOfMonth = sunSetDate.getDay()-1; // dzień miesiąca zachodu słońca
         
         const sunRiseDate = new Date(sunRiseInMili); // data wschodu słońca
-        const sunRiseDayOfMonth = sunRiseDate.getDay()-1; // dzień miesiąca wschodu słońca
+        // const sunRiseDayOfMonth = sunRiseDate.getDay()-1; // dzień miesiąca wschodu słońca
 
-        console.log(sunRiseDate);
-        console.log(sunSetDate);
+        const różnicaMiedzyZachodemAWschodem = sunSetDate - sunRiseDate;
+
+        // console.log(różnicaMiedzyZachodemAWschodem);
+        // console.log(sunRiseDate);
+        // console.log(sunSetDate);
+
         const nowTime = new Date(); // Obecna data i godzina
+        const doWschodu = nowTime - sunRiseInMili;
+        const doZachodu = nowTime - sunSetInMili;
+        const sumaDoWschoduIDoZachodu = Math.abs(doWschodu + doZachodu);
+        // console.log(doWschodu);
+        // console.log(doZachodu);
+        console.log(Math.abs(sumaDoWschoduIDoZachodu));
+        // let nowTimeDay = nowTime.getDay();
 
+        // console.log(nowTime.getDay()-1);
         const typeOfClouds = data.weather[0].description;
 
-        dzienCzyNoc(nowTime, sunSetDate, sunRiseDate, sunSetDayOfMonth, sunRiseDayOfMonth, typeOfClouds);
+        dzienCzyNoc(sumaDoWschoduIDoZachodu, różnicaMiedzyZachodemAWschodem,typeOfClouds);
         const tempInCalvin = parseInt(data.main.temp);
         const tempInCelsius = fromCalvinToCelcius(tempInCalvin);
 
@@ -68,8 +80,9 @@ const calculate = (city)=>{
     })
 }
 
-const dzienCzyNoc = (currentTime, sunSet, sunRise, sunSetDay, sunRiseDay, rodzajchmury)=>{
-    if(sunSet < currentTime || (sunRiseDay < sunSetDay && currentTime - sunSet < 0 && currentTime - sunRise < 0) || (sunRiseDay < sunSetDay && currentTime - sunSet < 0 && currentTime - sunRise > 0)){
+const dzienCzyNoc = (sumaDoWschoduIDoZachodu, różnicaMiedzyZachodemAWschodemWartośćBezwględna, rodzajchmury)=>{
+  
+    if(sumaDoWschoduIDoZachodu > różnicaMiedzyZachodemAWschodemWartośćBezwględna){
         style.innerHTML = `body::after {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds['night']}) center no-repeat; background-size: cover; z-index: -1; opacity: .6;} body::before {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${clouds[rodzajchmury]}) center no-repeat; background-size: cover; z-index: -1; opacity: .4}`;
         body.style.background = `url(imgs/darkClouds.jpeg) center no-repeat`;
         body.style.backgroundSize = "cover";
