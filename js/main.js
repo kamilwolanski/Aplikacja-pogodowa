@@ -26,48 +26,60 @@ const calculate = (city)=>{
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=86ccf0dc68b8c1df51843f8e9bf5244f`)
     .then(res => res.json())
     .then(data =>{
-        console.log(data);
-        const sunRise = data.sys.sunrise;
-        const sunRiseInMili = sunRise * 1000;
-
-        const sunSet = data.sys.sunset;
-        const sunSetInMili = sunSet * 1000;
-
-        const sunSetDate = new Date (sunSetInMili); // data zachodu słońca
-        const sunRiseDate = new Date(sunRiseInMili); // data wschodu słońca
-
-        const differenceBetweenSetAndRise = sunSetDate - sunRiseDate; // Różnica pomiędzy zachodem, a wschodem słońca
-
-        const nowTime = new Date(); // Obecna data i godzina
-        const toRise = nowTime - sunRiseInMili;
-        const toSet = nowTime - sunSetInMili;
-
-        const sumTimeToRiseAndSet = Math.abs(toRise + toSet); // Suma czasu obecnego do wschodu i do zachodu słońca - wartość bezwzględna
- 
-        const typeOfCloudsAndRain = data.weather[0].description; // Rodzaj chmury i rodzaj deszczu
-
-        dzienCzyNoc(sumTimeToRiseAndSet, differenceBetweenSetAndRise,typeOfCloudsAndRain);
-
-        const tempInCalvin = parseInt(data.main.temp);
-        const tempInCelsius = fromCalvinToCelcius(tempInCalvin);
-
-        assignToHtml(cityNameH1, city);
-        assignToHtml(temph2, tempInCelsius);
-
-        let tempFeelsLike = parseInt(data.main.feels_like);
-        tempFeelsLike = fromCalvinToCelcius(tempFeelsLike);
-        assignToHtml(feelsLikeSpan, tempFeelsLike);
-
-        const humidity = parseInt(data.main.humidity);
-        assignToHtml(humiditySpan, humidity);
-
-        const pressure = parseInt(data.main.pressure)
-        assignToHtml(pressureSpan, pressure);
-
-        const windSpeed = data.wind.speed;
-        assignToHtml(windSpan, windSpeed);
-        
+        jakas(data, city);
     })
+}
+
+const calculateBylatlon = (szerokosc, dlugosc)=>{
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${szerokosc}&lon=${dlugosc}&appid=86ccf0dc68b8c1df51843f8e9bf5244f`)
+    .then(res => res.json())
+    .then(data =>{
+        const city = data.name;
+        jakas(data, city);
+    })
+}
+
+const jakas = (data, city)=>{
+    console.log(data);
+    const sunRise = data.sys.sunrise;
+    const sunRiseInMili = sunRise * 1000;
+
+    const sunSet = data.sys.sunset;
+    const sunSetInMili = sunSet * 1000;
+
+    const sunSetDate = new Date (sunSetInMili); // data zachodu słońca
+    const sunRiseDate = new Date(sunRiseInMili); // data wschodu słońca
+
+    const differenceBetweenSetAndRise = sunSetDate - sunRiseDate; // Różnica pomiędzy zachodem, a wschodem słońca
+
+    const nowTime = new Date(); // Obecna data i godzina
+    const toRise = nowTime - sunRiseInMili;
+    const toSet = nowTime - sunSetInMili;
+
+    const sumTimeToRiseAndSet = Math.abs(toRise + toSet); // Suma czasu obecnego do wschodu i do zachodu słońca - wartość bezwzględna
+
+    const typeOfCloudsAndRain = data.weather[0].description; // Rodzaj chmury i rodzaj deszczu
+
+    dzienCzyNoc(sumTimeToRiseAndSet, differenceBetweenSetAndRise,typeOfCloudsAndRain);
+
+    const tempInCalvin = parseInt(data.main.temp);
+    const tempInCelsius = fromCalvinToCelcius(tempInCalvin);
+
+    assignToHtml(cityNameH1, city);
+    assignToHtml(temph2, tempInCelsius);
+
+    let tempFeelsLike = parseInt(data.main.feels_like);
+    tempFeelsLike = fromCalvinToCelcius(tempFeelsLike);
+    assignToHtml(feelsLikeSpan, tempFeelsLike);
+
+    const humidity = parseInt(data.main.humidity);
+    assignToHtml(humiditySpan, humidity);
+
+    const pressure = parseInt(data.main.pressure)
+    assignToHtml(pressureSpan, pressure);
+
+    const windSpeed = data.wind.speed;
+    assignToHtml(windSpan, windSpeed);
 }
 
 const dzienCzyNoc = (sumTimeToRiseAndSet, differenceBetweenSetAndRise, typeOfCloudsAndRain)=>{
@@ -128,12 +140,7 @@ if(geo) {
     const szerokośćGeo = location.coords.latitude;
     const dlugoscGeo = location.coords.longitude;
 
-    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${szerokośćGeo}&longitude=${dlugoscGeo}&localityLanguage=pl`)
-    .then(res => res.json())
-    .then(data =>{
-        const location = data.locality;
-        calculate (location);
-    })
+    calculateBylatlon(szerokośćGeo, dlugoscGeo);
 
   });
 }
