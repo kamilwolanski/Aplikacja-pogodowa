@@ -27,20 +27,20 @@ const daysOfTheWeek = {
 }
 
 const cloudsInMain = {
-    'clear sky':'fa-sun', 'light rain':'fa-cloud-rain'
+    'clear sky':'fa-sun', 'light rain':'fa-cloud-rain', 'few clouds':'fa-cloud-sun', 'moderate rain':'fa-cloud-showers-heavy', 'broken clouds':'fa-cloud', 'scattered clouds':'fa-cloud-sun'
 }
 const style = document.head.appendChild(document.createElement("style"));
 
 // const style = document.head.appendChild(document.createElement("style"));
 // style.innerHTML = "body::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/droprain.png) center no-repeat, background-size: cover; z-index: -1; opacity: .6;}";
 
-const calculate = (city)=>{
+const calculateByName = (city)=>{
     // const cityInputValue = cityInput.value;
 
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=86ccf0dc68b8c1df51843f8e9bf5244f`)
     .then(res => res.json())
     .then(data =>{
-        jakas(data, city);
+        calculate(data, city);
     })
 }
 
@@ -49,11 +49,12 @@ const calculateBylatlon = (szerokosc, dlugosc)=>{
     .then(res => res.json())
     .then(data =>{
         const city = data.name;
-        jakas(data, city);
+        calculate(data, city);
     })
 }
 
-const jakas = (data, city)=>{
+const calculate = (data, city)=>{
+   
     console.log(data);
     const sunRise = data.sys.sunrise;
     const sunRiseInMili = sunRise * 1000;
@@ -75,7 +76,7 @@ const jakas = (data, city)=>{
 
     const typeOfCloudsAndRain = data.weather[0].description; // Rodzaj chmury i rodzaj deszczu
 
-    dzienCzyNoc(sumTimeToRiseAndSet, differenceBetweenSetAndRise,typeOfCloudsAndRain);
+    assignPropertyTimeOfDayAndWeather(sumTimeToRiseAndSet, differenceBetweenSetAndRise,typeOfCloudsAndRain);
 
     const tempInCalvin = parseInt(data.main.temp);
     const tempInCelsius = fromCalvinToCelcius(tempInCalvin);
@@ -98,6 +99,13 @@ const jakas = (data, city)=>{
 
 // Druga część strony (MAIN)
 
+    calculateWeatherInMain(data,nowTime)
+}
+
+const calculateWeatherInMain = (data,nowTime)=>{
+    for(const cloud of clouds){       
+        cloud.className = "cloud fas";
+    }
     let dayOfTheWeek = nowTime.getDay()+1;
 
     for(const dayName of daysName){ //Przypisanie nazwy dni tygodnia
@@ -115,16 +123,16 @@ const jakas = (data, city)=>{
     .then(data =>{
         console.log(data);
         for(let i=0; i<3; i++){
-            const dailyTemp = parseInt(fromCalvinToCelcius(data.daily[i].temp.day));
+            const dailyTemp = parseInt(fromCalvinToCelcius(data.daily[i].temp.day)); // Przypisanie odpowiedniej temperatury i pogody na kolejne 3 dni
             tempMain[i].textContent = dailyTemp;
-            
+
             const dailyCloud = data.daily[i].weather[0].description;
             clouds[i].classList.add(`${cloudsInMain[dailyCloud]}`);
         }
     })
 }
 
-const dzienCzyNoc = (sumTimeToRiseAndSet, differenceBetweenSetAndRise, typeOfCloudsAndRain)=>{
+const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetweenSetAndRise, typeOfCloudsAndRain)=>{
   
     if(sumTimeToRiseAndSet > differenceBetweenSetAndRise){
         style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: .6;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 0; opacity: .4}`;
@@ -147,7 +155,7 @@ const dzienCzyNoc = (sumTimeToRiseAndSet, differenceBetweenSetAndRise, typeOfClo
 }
 
 const rain =(typeOfRain)=>{
-    style.innerHTML = `header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfRain]}) center no-repeat; background-size: cover; z-index: 2;}`;
+    style.innerHTML = `header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfRain]}) center no-repeat; background-size: cover;}`;
     header.style.background = `url(imgs/darkClouds.jpeg) center no-repeat`;
     header.style.backgroundSize = "cover";
 }
@@ -155,7 +163,7 @@ const enterCheck = ()=>{
     if(event.keyCode === 13){
         const cityInputValue = cityInput.value;
 
-        calculate(cityInputValue);
+        calculateByName(cityInputValue);
     }
 }
 
@@ -171,7 +179,7 @@ const assignToHtml = (place, value)=>{
 
 const getInputValue = ()=>{
     const cityInputValue = cityInput.value;
-    calculate(cityInputValue);
+    calculateByName(cityInputValue);
 }
 
 const getLocalization = ()=>{
@@ -190,7 +198,7 @@ if(geo) {
   });
 }
 
-calculate('Warszawa');
+calculateByName('Warszawa');
 
   
 }

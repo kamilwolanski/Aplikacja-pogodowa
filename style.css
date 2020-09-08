@@ -60,6 +60,7 @@ header::before{
     width: 100%;
     height: 5%;
     background: url(imgs/wave-small.png) no-repeat;
+    z-index: 1;
 }
 .header{
     display: flex;
@@ -90,7 +91,7 @@ header input{
     border-radius: 10rem;
     border: none;
     font-size: 20px;
-    color: darkblue;
+    color: rgb(48, 112, 114);
     font-weight: bolder;
     font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
@@ -137,10 +138,17 @@ main{
 
 .day{
     padding: 30px 0;
+    margin:0 10%;
+    border-bottom: 2px solid rgba(95, 158, 160, 0.623);
+}
+
+.day:nth-of-type(3){
+    border-bottom: none;
 }
 
 .day > h4{
     font-size: 40px;
+    color: rgb(182, 97, 97);
 }
 
 .weather{
