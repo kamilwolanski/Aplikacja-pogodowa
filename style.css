@@ -134,8 +134,17 @@ main{
     font-size: 30px;
     /* background-color: aliceblue; */
     position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    grid-gap: 2rem;
 }
 
+.days-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    grid-gap: 2.5rem;
+    
+}
 .day{
     padding: 30px 0;
     margin:0 10%;
@@ -162,4 +171,96 @@ main{
 
 .weather > h5{
     margin-top: 14px;
+}
+
+@media(min-width:406px){
+    .wrapper::before{
+        height: 10%;
+        background: url(imgs/wave-medium.png) no-repeat;
+    }
+}
+
+@media(min-width:806px){
+    .wrapper::before{
+        background-size: cover;
+        height: 12%;
+        /* background: url(imgs/wave-medium.png) no-repeat; */
+    }
+    .days-grid{
+        padding: 100px 0;
+    }
+}
+
+@media(min-width:857px){
+    .day{
+        border-bottom: none;
+        border-right: 2px solid rgba(95, 158, 160, 0.623);
+        padding: initial;
+        margin: initial;
+    }
+
+    .day:nth-of-type(2){
+        border: none;
+    }
+}
+
+
+@media(min-width:1300px){
+    .day{
+        border-bottom: none;
+        border-right: 2px solid rgba(95, 158, 160, 0.623);
+        padding: initial;
+        margin: initial;
+    }
+    .day:nth-of-type(2){
+        border-right: 2px solid rgba(95, 158, 160, 0.623);
+
+    }
+    .day:nth-of-type(3){
+        border: none;
+    }
+}
+
+@media(min-width:1004px){
+    .wrapper::before{
+        /* background-size: cover; */
+        height: 21%;
+        background: url(imgs/wave-large.png) no-repeat;
+    }
+    .wrapper{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .header{
+        width: 100%;
+    }
+    .header h1{
+        font-size: 70px;
+    }
+    .temperature-area{
+        width: 50%;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: initial;
+        border-bottom: none;
+        border-right: 2px solid rgba(255,255,255,.5);
+        height: initial;
+        margin-bottom: 30px;
+    }
+    .temperature-area h2{
+        font-size: 200px;
+    }
+    .restParametrs{
+        font-size: 20px;
+        width: 50%;
+        margin-top: 0;
+        flex-grow: 1;
+        align-items: center;
+    }
+
+    header input{
+        width: 50%;
+    }
 }
