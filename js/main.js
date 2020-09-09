@@ -15,6 +15,10 @@ const daysName = document.querySelectorAll('.dayName');
 const tempMain = document.querySelectorAll('.tempMain');
 const clouds = document.querySelectorAll('.cloud');
 
+const hourNames = document.querySelectorAll('.hourName');
+const hourTemps = document.querySelectorAll('.hourTemp');
+const cloudHours = document.querySelectorAll('.cloud-hour')
+
 const cloudsAndRain = {
     'few clouds':'fewClouds.jpg', 'scattered clouds':'scatteredClouds.jpg', 'clear sky':'clearSky.jpeg', 'overcast clouds':'darkClouds.jpeg',
     'light rain':'droprain.png', 'moderate rain':'droprain.png','shower rain':'rains.png','light intensity drizzle rain':'rains.png',
@@ -105,22 +109,17 @@ const calculate = (data, city)=>{
 
     const windSpeed = data.wind.speed;
     assignToHtml(windSpan, windSpeed);
+// Godzinowa prognoza pogody
 
-// Druga część strony (MAIN)
+    
+// Pogoda na kolejne dni
 
-    calculateWeatherInMain(data,nowTime)
+    calculateHourlyAndDailyWeather(data,nowTime)
 }
 
-const calculateWeatherInMain = (data,nowTime)=>{
-    for(const cloud of clouds){       
-        cloud.className = "cloud fas";
-    }
-    let dayOfTheWeek = nowTime.getDay()+1;
 
-    for(const dayName of daysName){ //Przypisanie nazwy dni tygodnia
-        dayName.textContent = daysOfTheWeek[dayOfTheWeek];
-        dayOfTheWeek++;
-    }
+const calculateHourlyAndDailyWeather = (data,nowTime)=>{
+  
 
     const latitude = data.coord.lat; //szerokość geograficzna
     const longitude = data.coord.lon;//długość geograficzna
@@ -131,14 +130,52 @@ const calculateWeatherInMain = (data,nowTime)=>{
     .then(res => res.json())
     .then(data =>{
         console.log(data);
-        for(let i=0; i<3; i++){
-            const dailyTemp = parseInt(fromCalvinToCelcius(data.daily[i].temp.day)); // Przypisanie odpowiedniej temperatury i pogody na kolejne 3 dni
-            tempMain[i].textContent = dailyTemp;
+        calculateDailyWeather(data,nowTime);
+        calculateHourlyWeather(data);
 
-            const dailyCloud = data.daily[i].weather[0].description;
-            clouds[i].classList.add(`${cloudsInMain[dailyCloud]}`);
-        }
+   
     })
+}
+
+const calculateHourlyWeather = (data)=>{
+    for(const cloud of cloudHours){       
+        cloud.className = "cloud fas";
+    }
+    let k = 0;
+    for(let i=1; i<13; i=i+2){
+        const hourlyInMili = (data.hourly[i].dt)*1000;
+        const hourlyTemp = parseInt(fromCalvinToCelcius(data.hourly[i].temp));
+        const hourlyCloud = data.hourly[i].weather[0].description;
+        console.log(hourlyCloud)
+        const nextTime = new Date(hourlyInMili);
+        const getHoursNextTime = nextTime.getHours()+':00';
+     
+
+        hourNames[k].textContent = getHoursNextTime;
+        cloudHours[k].classList.add(`${cloudsInMain[hourlyCloud]}`);
+        hourTemps[k].textContent = hourlyTemp;
+        k++;
+        
+    }
+}
+
+const calculateDailyWeather = (data, nowTime)=>{
+    let dayOfTheWeek = nowTime.getDay()+1;
+
+    for(const cloud of clouds){       
+        cloud.className = "cloud fas";
+    }
+    for(const dayName of daysName){ //Przypisanie nazwy dni tygodnia
+        dayName.textContent = daysOfTheWeek[dayOfTheWeek];
+        dayOfTheWeek++;
+    }
+    for(let i=0; i<3; i++){
+        const dailyTemp = parseInt(fromCalvinToCelcius(data.daily[i].temp.day)); // Przypisanie odpowiedniej temperatury i pogody na kolejne 3 dni
+        tempMain[i].textContent = dailyTemp;
+
+        const dailyCloud = data.daily[i].weather[0].description;
+        clouds[i].classList.add(`${cloudsInMain[dailyCloud]}`);
+    }
 }
 
 const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetweenSetAndRise, typeOfCloudsAndRain, widthOutput)=>{

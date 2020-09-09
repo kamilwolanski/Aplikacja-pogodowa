@@ -129,21 +129,41 @@ header input{
 main{
     /* height: 300px; */
     width: 100%;
-    color: cadetblue;
-    text-align: center;
     font-size: 30px;
     /* background-color: aliceblue; */
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    grid-gap: 2rem;
 }
 
+.hourly-weather-container{
+    padding: 30px;
+    /* min-height: 100%; */
+}
+
+.hourly-weather > .hourly-weather-container > h5{
+    padding-bottom:8px;
+    font-size: 15px;
+    color: rgb(182, 97, 97);
+    border-bottom:  2px solid cadetblue ;
+}
+
+.hour-flex{
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 20px;
+}
+
+.hour{
+    text-align: center;
+    width: 33.3%;
+    padding: 10px 0;
+}
 .days-grid{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
     grid-gap: 2.5rem;
-    
+    text-align: center;
+    color: cadetblue;
+
 }
 .day{
     padding: 30px 0;
@@ -189,6 +209,7 @@ main{
     .days-grid{
         padding: 100px 0;
     }
+
 }
 
 @media(min-width:857px){
