@@ -22,7 +22,7 @@ const cloudHours = document.querySelectorAll('.cloud-hour')
 const cloudsAndRain = {
     'few clouds':'fewClouds.jpg', 'scattered clouds':'scatteredClouds.jpg', 'clear sky':'clearSky.jpeg', 'overcast clouds':'darkClouds.jpeg',
     'light rain':'droprain.png', 'moderate rain':'droprain.png','shower rain':'rains.png','light intensity drizzle rain':'rains.png', 'heavy intensity rain': 'rains.png',
-    'broken clouds':'brokenClouds.jpeg', 'light intensity shower rain':'rains.png', 'night':'nightSky.jpeg', 'nightWide':'nightSkyWide.jpeg', 'thunderstorm':'storm.jpg', 'haze':'haze.jpg'
+    'broken clouds':'brokenClouds.jpeg', 'light intensity shower rain':'rains.png', 'night':'nightSky.jpeg', 'nightWide':'nightSkyWide.jpg', 'thunderstorm':'storm.jpg', 'haze':'haze.jpg'
     
 }
 
@@ -174,9 +174,9 @@ const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetwee
     if(sumTimeToRiseAndSet > differenceBetweenSetAndRise){  // jeśli warunek się spełni wtedy jest noc
         
             if (widthOutput <= 1004) { // zmiana obrazu tła w nocy gdy szerokość ekranu jest mniejszą bądź większa
-                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .3}`;
+                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .2}`;
             } else if(widthOutput > 1004){
-                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['nightWide']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .3}`;
+                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['nightWide']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .2}`;
             }
              
             customize = () => customizeBackground(typeOfCloudsAndRain)
@@ -206,9 +206,9 @@ const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetwee
 
 const customizeBackground = (typeOfCloudsAndRain)=>{
         if (window.matchMedia("(max-width: 1003px)").matches) {
-            style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .4}`;
+            style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .2}`;
         } else {
-            style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['nightWide']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .4}`;
+            style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['nightWide']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .2}`;
         }
 }
 
