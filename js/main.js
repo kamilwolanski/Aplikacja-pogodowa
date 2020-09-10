@@ -21,8 +21,8 @@ const cloudHours = document.querySelectorAll('.cloud-hour')
 
 const cloudsAndRain = {
     'few clouds':'fewClouds.jpg', 'scattered clouds':'scatteredClouds.jpg', 'clear sky':'clearSky.jpeg', 'overcast clouds':'darkClouds.jpeg',
-    'light rain':'droprain.png', 'moderate rain':'droprain.png','shower rain':'rains.png','light intensity drizzle rain':'rains.png',
-    'broken clouds':'brokenClouds.jpeg', 'light intensity shower rain':'rains.png', 'night':'nightSky.jpeg', 'nightWide':'nightSkyWide.jpeg', 'thunderstorm':'storm.jpg'
+    'light rain':'droprain.png', 'moderate rain':'droprain.png','shower rain':'rains.png','light intensity drizzle rain':'rains.png', 'heavy intensity rain': 'rains.png',
+    'broken clouds':'brokenClouds.jpeg', 'light intensity shower rain':'rains.png', 'night':'nightSky.jpeg', 'nightWide':'nightSkyWide.jpeg', 'thunderstorm':'storm.jpg', 'haze':'haze.jpg'
     
 }
 
@@ -31,7 +31,7 @@ const daysOfTheWeek = {
 }
 
 const cloudsInMain = {
-    'clear sky':'fa-sun', 'light rain':'fa-cloud-rain', 'few clouds':'fa-cloud-sun', 'moderate rain':'fa-cloud-showers-heavy', 'broken clouds':'fa-cloud', 'scattered clouds':'fa-cloud-sun', 'few clouds':'fa-cloud-sun', 'overcast clouds':'fa-cloud'
+    'clear sky':'fa-sun', 'light rain':'fa-cloud-rain', 'few clouds':'fa-cloud-sun', 'moderate rain':'fa-cloud-showers-heavy', 'broken clouds':'fa-cloud', 'scattered clouds':'fa-cloud-sun', 'few clouds':'fa-cloud-sun', 'overcast clouds':'fa-cloud', 'heavy intensity rain':'fa-cloud-showers-heavy'
 }
 const style = document.head.appendChild(document.createElement("style"));
 let customize;
@@ -196,7 +196,7 @@ const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetwee
         header.style.backgroundSize = "cover";
         style.innerHTML = "";
 
-        if(typeOfCloudsAndRain === 'light rain' || typeOfCloudsAndRain === 'moderate rain' || typeOfCloudsAndRain === 'shower rain' || typeOfCloudsAndRain === 'light intensity drizzle rain'|| typeOfCloudsAndRain === 'light intensity shower rain'){
+        if(typeOfCloudsAndRain === 'light rain' || typeOfCloudsAndRain === 'moderate rain' || typeOfCloudsAndRain === 'shower rain' || typeOfCloudsAndRain === 'light intensity drizzle rain'|| typeOfCloudsAndRain === 'light intensity shower rain' || typeOfCloudsAndRain === 'haze' || typeOfCloudsAndRain === 'heavy intensity rain'){
             rain(typeOfCloudsAndRain);
         }else if(typeOfCloudsAndRain === 'thunderstorm'){
             style.innerHTML = `header::before {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/droprain.png) center no-repeat; background-size: cover; z-index: -1; opacity: .4;}`;
