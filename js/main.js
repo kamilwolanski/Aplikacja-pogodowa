@@ -1,4 +1,4 @@
-// import { fromCalvinToCelcius } from '@.'
+
 const cityInput = document.querySelector('#cityInput');
 const temph2 = document.querySelector('.temp');
 const cityNameH1 = document.querySelector('.city')
@@ -31,16 +31,13 @@ const daysOfTheWeek = {
 }
 
 const cloudsInMain = {
-    'clear sky':'fa-sun', 'light rain':'fa-cloud-rain', 'few clouds':'fa-cloud-sun', 'moderate rain':'fa-cloud-showers-heavy', 'broken clouds':'fa-cloud', 'scattered clouds':'fa-cloud-sun'
+    'clear sky':'fa-sun', 'light rain':'fa-cloud-rain', 'few clouds':'fa-cloud-sun', 'moderate rain':'fa-cloud-showers-heavy', 'broken clouds':'fa-cloud', 'scattered clouds':'fa-cloud-sun', 'few clouds':'fa-cloud-sun', 'overcast clouds':'fa-cloud'
 }
 const style = document.head.appendChild(document.createElement("style"));
-let dupa;
+let customize;
 
-// const style = document.head.appendChild(document.createElement("style"));
-// style.innerHTML = "body::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/droprain.png) center no-repeat, background-size: cover; z-index: -1; opacity: .6;}";
 
 const calculateByName = (city)=>{
-    // const cityInputValue = cityInput.value;
 
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=86ccf0dc68b8c1df51843f8e9bf5244f`)
     .then(res => res.json())
@@ -60,11 +57,9 @@ const calculateBylatlon = (szerokosc, dlugosc)=>{
 
 const calculate = (data, city)=>{
 
-    const czas = new Date(1599692400000);
-    console.log(czas)
     let widthOutput = window.innerWidth;
 
-    window.removeEventListener('resize', dupa);
+    window.removeEventListener('resize', customize);
 
     console.log(data);
     const sunRise = data.sys.sunrise;
@@ -109,10 +104,6 @@ const calculate = (data, city)=>{
 
     const windSpeed = data.wind.speed;
     assignToHtml(windSpan, windSpeed);
-// Godzinowa prognoza pogody
-
-    
-// Pogoda na kolejne dni
 
     calculateHourlyAndDailyWeather(data,nowTime)
 }
@@ -123,15 +114,15 @@ const calculateHourlyAndDailyWeather = (data,nowTime)=>{
 
     const latitude = data.coord.lat; //szerokość geograficzna
     const longitude = data.coord.lon;//długość geograficzna
-    console.log(latitude, longitude);
+    // console.log(latitude, longitude);
 
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&
     exclude={part}&appid=86ccf0dc68b8c1df51843f8e9bf5244f`)
     .then(res => res.json())
     .then(data =>{
         console.log(data);
-        calculateDailyWeather(data,nowTime);
-        calculateHourlyWeather(data);
+        calculateDailyWeather(data,nowTime); // Obliczanie pogody na kolejne dni
+        calculateHourlyWeather(data); // Obliczanie pogody na kolejne godziny
 
    
     })
@@ -144,9 +135,9 @@ const calculateHourlyWeather = (data)=>{
     let k = 0;
     for(let i=1; i<13; i=i+2){
         const hourlyInMili = (data.hourly[i].dt)*1000;
-        const hourlyTemp = parseInt(fromCalvinToCelcius(data.hourly[i].temp));
-        const hourlyCloud = data.hourly[i].weather[0].description;
-        console.log(hourlyCloud)
+        const hourlyTemp = parseInt(fromCalvinToCelcius(data.hourly[i].temp)); // godzinowa temperatura zamieniona z kalvinów na celciusze
+        const hourlyCloud = data.hourly[i].weather[0].description; // Pobranie rodzaju pogody
+        // console.log(hourlyCloud)
         const nextTime = new Date(hourlyInMili);
         const getHoursNextTime = nextTime.getHours()+':00';
      
@@ -162,7 +153,7 @@ const calculateHourlyWeather = (data)=>{
 const calculateDailyWeather = (data, nowTime)=>{
     let dayOfTheWeek = nowTime.getDay()+1;
 
-    for(const cloud of clouds){       
+    for(const cloud of clouds){        
         cloud.className = "cloud fas";
     }
     for(const dayName of daysName){ //Przypisanie nazwy dni tygodnia
@@ -183,13 +174,13 @@ const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetwee
     if(sumTimeToRiseAndSet > differenceBetweenSetAndRise){  // jeśli warunek się spełni wtedy jest noc
         
             if (widthOutput <= 1004) { // zmiana obrazu tła w nocy gdy szerokość ekranu jest mniejszą bądź większa
-                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .4}`;
+                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .3}`;
             } else if(widthOutput > 1004){
-                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['nightWide']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .4}`;
+                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['nightWide']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .3}`;
             }
              
-            dupa = () => jakas(typeOfCloudsAndRain)
-        window.addEventListener("resize", dupa)//funkcja która dostosowuje tło nocnego nieba do zmiany szerokości okna||obraz tła musiał zostać obrócony o 90 stopni ponieważ na szerszych ekranach jego rozdzielcczosc była zbyt niska
+            customize = () => customizeBackground(typeOfCloudsAndRain)
+        window.addEventListener("resize", customize)//funkcja która dostosowuje tło nocnego nieba do zmiany szerokości okna||obraz tła musiał zostać obrócony o 90 stopni ponieważ na szerszych ekranach jego rozdzielcczosc była zbyt niska
         if(typeOfCloudsAndRain === 'light rain'|| typeOfCloudsAndRain === 'light intensity shower rain'||typeOfCloudsAndRain==='moderate rain'|| typeOfCloudsAndRain === 'light intensity drizzle rain'|| typeOfCloudsAndRain === 'shower rain'){
             header.style.background = `url(imgs/darkClouds.jpeg) center no-repeat`;
             header.style.backgroundSize = "cover";
@@ -213,7 +204,7 @@ const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetwee
     }
 }
 
-const jakas = (typeOfCloudsAndRain)=>{
+const customizeBackground = (typeOfCloudsAndRain)=>{
         if (window.matchMedia("(max-width: 1003px)").matches) {
             style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .4}`;
         } else {
@@ -251,12 +242,12 @@ const getInputValue = ()=>{
 
 const getLocalization = ()=>{
     var geo = navigator.geolocation;
-    console.log(geo);
+    // console.log(geo);
 
 if(geo) {
   geo.getCurrentPosition(function(location) {
-    console.log('Szerokość ' + location.coords.latitude);
-    console.log('Długość ' + location.coords.longitude);
+    // console.log('Szerokość ' + location.coords.latitude);
+    // console.log('Długość ' + location.coords.longitude);
     const szerokośćGeo = location.coords.latitude;
     const dlugoscGeo = location.coords.longitude;
 
@@ -270,7 +261,6 @@ calculateByName('Warszawa');
   
 }
 cityInput.addEventListener('keyup', enterCheck)
-searchBtn.addEventListener('click',getInputValue)
-getLocalization();
-// calculate('Warszawa');
+searchBtn.addEventListener('click',getInputValue) // 
+getLocalization(); // funkcja pobiera lokalizacje użytkownika. Jeśli ten zgodzi się na udostępnienie lokalizacji, program ustali pogode dla jego lokalizacji, jeśli się nie zgodzi domyślnie pierwszym wyszukaniem będzie Warszawa.
 
