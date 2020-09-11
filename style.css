@@ -190,7 +190,7 @@ main{
 }
 .days-grid{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    /* grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); */
     text-align: center;
     color: cadetblue;
 
@@ -229,7 +229,11 @@ main{
         height: 10%;
         background: url(imgs/wave-medium.png) no-repeat;
     }
+    .days-grid{
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    }
 }
+
 
 @media(min-width:680px){
     .hourly-weather > .hourly-weather-container > h5{
@@ -248,24 +252,17 @@ main{
         background-size: cover;
         height: 12%;
     }
-    .days-grid{
-        grid-gap:2rem;
-        padding: 80px 0;
-
-    }
+   
 
 }
 
-@media(min-width:857px){
-    .day{
-        border-bottom: none;
-        border-right: 2px solid rgba(95, 158, 160, 0.623);
-        padding: initial;
-        margin: initial;
-    }
+@media(min-width:941px){
 
-    .day:nth-of-type(2){
+    .day{
+        padding:initial;
         border: none;
+        border-right: 2px solid rgba(95, 158, 160, 0.623);
+        margin:initial;
     }
     .hourly-weather > .hourly-weather-container > h5{
         width: 50%;
@@ -275,6 +272,11 @@ main{
         width: 50%;
         font-size: 22px;
     }
+    .days-grid{
+        padding: 80px 0;
+
+    }
+   
 }
 
 @media(min-width:1004px){
@@ -318,14 +320,6 @@ main{
     header input{
         width: 50%;
     }
-}
-@media(min-width:1040px){
-    .hourly-weather{
-        margin: 0 50px;
-    }
-    .daily-weather{
-        margin: 0 50px;
-    }
     .day{
         border-bottom: none;
         border-right: 2px solid rgba(95, 158, 160, 0.623);
@@ -339,21 +333,9 @@ main{
     .day:nth-of-type(3){
         border: none;
     }
-    .hourly-weather > .hourly-weather-container > h5{
-        width: 40%;
-        font-size: 22px;
-    }
-    .daily-weather > .daily-weather-container > h5{
-        width: 40%;
-        font-size: 22px;
-    }
-    .days-grid{
-        grid-gap:2rem;
-        padding: 80px 0;
-
-    }
-  
+   
 }
+
 @media(min-width:1138px){
     .day > h4{
         font-size: 40px;
@@ -363,5 +345,9 @@ main{
     }
     .weather > h5 {
         font-size: 50px;
+    }
+    .daily-weather > .daily-weather-container > h5{
+        width: 40%;
+        font-size: 22px;
     }
 }

@@ -22,12 +22,12 @@ const cloudHours = document.querySelectorAll('.cloud-hour')
 const cloudsAndRain = {
     'few clouds':'fewClouds.jpg', 'scattered clouds':'scatteredClouds.jpg', 'clear sky':'clearSky.jpeg', 'overcast clouds':'darkClouds.jpeg',
     'light rain':'droprain.png', 'moderate rain':'droprain.png','shower rain':'rains.png','light intensity drizzle rain':'rains.png', 'heavy intensity rain': 'rains.png',
-    'broken clouds':'brokenClouds.jpeg', 'light intensity shower rain':'rains.png', 'night':'nightSky.jpeg', 'nightWide':'nightSkyWide.jpg', 'thunderstorm':'storm.jpg', 'haze':'haze.jpg'
+    'broken clouds':'brokenClouds.jpg', 'light intensity shower rain':'rains.png', 'night':'nightSky.jpeg', 'nightWide':'nightSkyWide.jpeg', 'thunderstorm':'storm.jpg', 'haze':'haze.jpg', 'smoke':'haze.jpg'
     
 }
 
 const daysOfTheWeek = {
-    '0':'Niedziela', '1':'Poniedziałek', '2':'Wtorek', '3':'Środa', '4':'Czwartek', '5':'Piątek', '6':'Sobota', '7':'Niedziela'
+    '0':'Niedziela', '1':'Poniedziałek', '2':'Wtorek', '3':'Środa', '4':'Czwartek', '5':'Piątek', '6':'Sobota'
 }
 
 const cloudsInMain = {
@@ -152,13 +152,17 @@ const calculateHourlyWeather = (data)=>{
 
 const calculateDailyWeather = (data, nowTime)=>{
     let dayOfTheWeek = nowTime.getDay()+1;
-
+   
+    console.log(dayOfTheWeek);
     for(const cloud of clouds){        
         cloud.className = "cloud fas";
     }
     for(const dayName of daysName){ //Przypisanie nazwy dni tygodnia
         dayName.textContent = daysOfTheWeek[dayOfTheWeek];
         dayOfTheWeek++;
+        if (dayOfTheWeek > 6){
+            dayOfTheWeek = 0
+        }
     }
     for(let i=0; i<3; i++){
         const dailyTemp = parseInt(fromCalvinToCelcius(data.daily[i].temp.day)); // Przypisanie odpowiedniej temperatury i pogody na kolejne 3 dni
@@ -174,9 +178,9 @@ const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetwee
     if(sumTimeToRiseAndSet > differenceBetweenSetAndRise){  // jeśli warunek się spełni wtedy jest noc
         
             if (widthOutput <= 1004) { // zmiana obrazu tła w nocy gdy szerokość ekranu jest mniejszą bądź większa
-                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .2}`;
+                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['night']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .3}`;
             } else if(widthOutput > 1004){
-                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['nightWide']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .2}`;
+                style.innerHTML = `header::after {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain['nightWide']}) center no-repeat; background-size: cover; opacity: 1;} header::before {content: ''; position:absolute; left:0;; top:0;; width:100%; height:100%; background: url(imgs/${cloudsAndRain[typeOfCloudsAndRain]}) center no-repeat; background-size: cover; z-index: 1; opacity: .3}`;
             }
              
             customize = () => customizeBackground(typeOfCloudsAndRain)
@@ -196,7 +200,7 @@ const assignPropertyTimeOfDayAndWeather = (sumTimeToRiseAndSet, differenceBetwee
         header.style.backgroundSize = "cover";
         style.innerHTML = "";
 
-        if(typeOfCloudsAndRain === 'light rain' || typeOfCloudsAndRain === 'moderate rain' || typeOfCloudsAndRain === 'shower rain' || typeOfCloudsAndRain === 'light intensity drizzle rain'|| typeOfCloudsAndRain === 'light intensity shower rain' || typeOfCloudsAndRain === 'haze' || typeOfCloudsAndRain === 'heavy intensity rain'){
+        if(typeOfCloudsAndRain === 'light rain' || typeOfCloudsAndRain === 'moderate rain' || typeOfCloudsAndRain === 'shower rain' || typeOfCloudsAndRain === 'light intensity drizzle rain'|| typeOfCloudsAndRain === 'light intensity shower rain' || typeOfCloudsAndRain === 'haze' || typeOfCloudsAndRain === 'heavy intensity rain'|| typeOfCloudsAndRain === 'smoke'){
             rain(typeOfCloudsAndRain);
         }else if(typeOfCloudsAndRain === 'thunderstorm'){
             style.innerHTML = `header::before {content: ''; position:fixed; left:0;; top:0;; width:100%; height:100%; background: url(imgs/droprain.png) center no-repeat; background-size: cover; z-index: -1; opacity: .4;}`;
