@@ -347,7 +347,12 @@ main{
         font-size: 50px;
     }
     .daily-weather > .daily-weather-container > h5{
-        width: 40%;
+        width: 35%;
+        font-size: 22px;
+    }
+
+    .hourly-weather > .hourly-weather-container > h5{
+        width: 35%;
         font-size: 22px;
     }
 }

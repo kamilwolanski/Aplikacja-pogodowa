@@ -31,7 +31,7 @@ const daysOfTheWeek = {
 }
 
 const cloudsInMain = {
-    'clear sky':'fa-sun', 'light rain':'fa-cloud-rain', 'few clouds':'fa-cloud-sun', 'moderate rain':'fa-cloud-showers-heavy', 'broken clouds':'fa-cloud', 'scattered clouds':'fa-cloud-sun', 'few clouds':'fa-cloud-sun', 'overcast clouds':'fa-cloud', 'heavy intensity rain':'fa-cloud-showers-heavy'
+    'clear sky':'fa-sun', 'light rain':'fa-cloud-rain', 'few clouds':'fa-cloud-sun', 'moderate rain':'fa-cloud-showers-heavy', 'broken clouds':'fa-cloud', 'scattered clouds':'fa-cloud-sun', 'few clouds':'fa-cloud-sun', 'overcast clouds':'fa-cloud', 'heavy intensity rain':'fa-cloud-showers-heavy', 'very heavy rain':'fa-cloud-showers-heavy'
 }
 const style = document.head.appendChild(document.createElement("style"));
 let customize;
@@ -61,7 +61,6 @@ const calculate = (data, city)=>{
 
     window.removeEventListener('resize', customize);
 
-    console.log(data);
     const sunRise = data.sys.sunrise;
     const sunRiseInMili = sunRise * 1000;
 
@@ -74,7 +73,7 @@ const calculate = (data, city)=>{
     const differenceBetweenSetAndRise = sunSetDate - sunRiseDate; // Różnica pomiędzy zachodem, a wschodem słońca
 
     const nowTime = new Date(); // Obecna data i godzina
-  
+    console.log(nowTime.getDay())
     const toRise = nowTime - sunRiseInMili;
     const toSet = nowTime - sunSetInMili;
 
@@ -114,13 +113,11 @@ const calculateHourlyAndDailyWeather = (data,nowTime)=>{
 
     const latitude = data.coord.lat; //szerokość geograficzna
     const longitude = data.coord.lon;//długość geograficzna
-    // console.log(latitude, longitude);
 
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&
     exclude={part}&appid=86ccf0dc68b8c1df51843f8e9bf5244f`)
     .then(res => res.json())
     .then(data =>{
-        console.log(data);
         calculateDailyWeather(data,nowTime); // Obliczanie pogody na kolejne dni
         calculateHourlyWeather(data); // Obliczanie pogody na kolejne godziny
 
@@ -137,7 +134,7 @@ const calculateHourlyWeather = (data)=>{
         const hourlyInMili = (data.hourly[i].dt)*1000;
         const hourlyTemp = parseInt(fromCalvinToCelcius(data.hourly[i].temp)); // godzinowa temperatura zamieniona z kalvinów na celciusze
         const hourlyCloud = data.hourly[i].weather[0].description; // Pobranie rodzaju pogody
-        // console.log(hourlyCloud)
+
         const nextTime = new Date(hourlyInMili);
         const getHoursNextTime = nextTime.getHours()+':00';
      
@@ -153,16 +150,17 @@ const calculateHourlyWeather = (data)=>{
 const calculateDailyWeather = (data, nowTime)=>{
     let dayOfTheWeek = nowTime.getDay()+1;
    
-    console.log(dayOfTheWeek);
     for(const cloud of clouds){        
         cloud.className = "cloud fas";
     }
     for(const dayName of daysName){ //Przypisanie nazwy dni tygodnia
-        dayName.textContent = daysOfTheWeek[dayOfTheWeek];
-        dayOfTheWeek++;
-        if (dayOfTheWeek > 6){
+        if (dayOfTheWeek >6){
             dayOfTheWeek = 0
         }
+        dayName.textContent = daysOfTheWeek[dayOfTheWeek];
+
+        dayOfTheWeek++;
+
     }
     for(let i=0; i<3; i++){
         const dailyTemp = parseInt(fromCalvinToCelcius(data.daily[i].temp.day)); // Przypisanie odpowiedniej temperatury i pogody na kolejne 3 dni
@@ -246,12 +244,10 @@ const getInputValue = ()=>{
 
 const getLocalization = ()=>{
     var geo = navigator.geolocation;
-    // console.log(geo);
 
 if(geo) {
   geo.getCurrentPosition(function(location) {
-    // console.log('Szerokość ' + location.coords.latitude);
-    // console.log('Długość ' + location.coords.longitude);
+
     const szerokośćGeo = location.coords.latitude;
     const dlugoscGeo = location.coords.longitude;
 
